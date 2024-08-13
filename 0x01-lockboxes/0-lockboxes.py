@@ -6,5 +6,3 @@ def canUnlockAll(boxes):
     for key in box:
       unlocked[key] = True
   return all(unlocked)
-  
-  
