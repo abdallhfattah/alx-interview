@@ -8,6 +8,7 @@ def canUnlockAll(boxes):
   based on keys that can be attained.
   Solution to the lockboxes problem
   """
+
   if(type(boxes) is not list or len(boxes) == 0):
     return False
 
