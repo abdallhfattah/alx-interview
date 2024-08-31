@@ -1,28 +1,21 @@
 #!/usr/bin/python3
-""" module provides a function that helps in finding the
-    minimum number of operations
-    to reach exactly n 'H' characters
-  """
+""" Minimum Operations
+    """
 
 
-def minOperations(n):
-    """Compute the minimum number of operations
-    to reach exactly n 'H' characters."""
-    memo = {}
-
-    def dp(count, copied):
-        if count == n:
-            return 0
-        if count > n:
-            return float("inf")
-
-        if (count, copied) in memo:
-            return memo[(count, copied)]
-
-        res = float("inf")
-
-        res = min(1 + dp(count + copied, copied), 2 + dp(count + count, count))
-        memo[(count, copied)] = res
-        return res
-
-    return 1 + dp(1, 1)
+def minOperations(n: int) -> int:
+    """ Minimum Operations needed to get n H characters """
+    next = 'H'
+    body = 'H'
+    op = 0
+    while (len(body) < n):
+        if n % len(body) == 0:
+            op += 2
+            next = body
+            body += body
+        else:
+            op += 1
+            body += next
+    if len(body) != n:
+        return 0
+    return op
