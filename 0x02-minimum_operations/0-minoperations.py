@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """ min operations """
 
+
 def minOperations(n):
     """Compute the minimum number of operations
     to reach exactly n 'H' characters."""
@@ -20,5 +21,8 @@ def minOperations(n):
         res = min(1 + dp(count + copied, copied), 2 + dp(count + count, count))
         memo[(count, copied)] = res
         return res
+
+    if n == 0:
+        return 0
 
     return 1 + dp(1, 1)
