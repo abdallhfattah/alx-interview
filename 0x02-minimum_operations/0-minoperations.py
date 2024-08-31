@@ -1,4 +1,8 @@
 #!/usr/bin/python3
+""" module provides a function that helps in finding the
+    minimum number of operations
+    to reach exactly n 'H' characters
+  """
 
 
 def minOperations(n):
