@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-
+""" min operations """
 
 def minOperations(n):
     """Compute the minimum number of operations
