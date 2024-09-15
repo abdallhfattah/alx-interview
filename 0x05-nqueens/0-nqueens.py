@@ -52,4 +52,5 @@ if __name__ == "__main__":
         print("N must be at least 4")
         sys.exit(1)
 
-    print(solveQueens(dimensions))
+    for sol in solveQueens(dimensions):
+        print(sol)
