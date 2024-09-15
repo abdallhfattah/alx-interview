@@ -1,10 +1,9 @@
 #!/usr/bin/python3
 """module that solves famous N Queen problem"""
 import sys
-from typing import List, Tuple
 
 
-def solveQueens(n: int) -> List[List[Tuple[int, int]]]:
+def solveQueens(n: int):
     """function to solve N queen problem"""
     col = set()
     posDiag = set()  # (r + c)
@@ -13,6 +12,7 @@ def solveQueens(n: int) -> List[List[Tuple[int, int]]]:
     board = [[0] * n for i in range(n)]
 
     def backtrack(r: int):
+        """backtracking"""
         if r == n:
             copy = [coll for row in board for coll in row if coll != 0]
             solutions.append(copy)
