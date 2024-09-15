@@ -2,6 +2,7 @@
 
 
 def validUTF8(data) -> bool:
+    """utf validating"""
     num_bytes = 0
     for byte in data:
         byte = byte & 0xFF
