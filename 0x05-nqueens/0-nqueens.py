@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 """module that solves famous N Queen problem"""
 import sys
-from typing import List, Any
+from typing import List, Tuple
 
 
-def solveQueens(n: int) -> List[List[int,int]]:
+def solveQueens(n: int) -> List[List[Tuple[int, int]]]:
     """function to solve N queen problem"""
     col = set()
     posDiag = set()  # (r + c)
