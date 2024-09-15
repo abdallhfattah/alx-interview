@@ -1,56 +1,68 @@
 #!/usr/bin/python3
-"""module that solves famous N Queen problem"""
+"""
+Solution to the nqueens problem
+"""
 import sys
 
 
-def solveQueens(n: int):
-    """function to solve N queen problem"""
-    col = set()
-    posDiag = set()  # (r + c)
-    negDiag = set()  # (r - c)
-    solutions = []
+def backtrack(r, n, cols, pos, neg, board):
+    """
+    backtrack function to find solution
+    """
+    if r == n:
+        res = []
+        for row in range(len(board)):
+            for k in range(len(board[row])):
+                if board[row][k] == 1:
+                    res.append([row, k])
+        print(res)
+        return
+
+    for c in range(n):
+        if c in cols or (r + c) in pos or (r - c) in neg:
+            continue
+
+        cols.add(c)
+        pos.add(r + c)
+        neg.add(r - c)
+        board[r][c] = 1
+
+        backtrack(r + 1, n, cols, pos, neg, board)
+
+        cols.remove(c)
+        pos.remove(r + c)
+        neg.remove(r - c)
+        board[r][c] = 0
+
+
+def nqueens(n):
+    """
+    Solution to nqueens problem
+    Args:
+        n (int): number of queens. Must be >= 4
+    Return:
+        List of lists representing coordinates of each
+        queen for all possible solutions
+    """
+    cols = set()
+    pos_diag = set()
+    neg_diag = set()
     board = [[0] * n for i in range(n)]
 
-    def backtrack(r: int):
-        """backtracking"""
-        if r == n:
-            copy = [coll for row in board for coll in row if coll != 0]
-            solutions.append(copy)
-            return
-
-        for c in range(n):
-            if c in col or (r + c) in posDiag or (r - c) in negDiag:
-                continue
-            else:
-                # updating
-                board[r][c] = [r, c]
-                posDiag.add(r + c)
-                negDiag.add(r - c)
-                col.add(c)
-                # backtracking
-                backtrack(r + 1)
-                # clean up
-                board[r][c] = 0
-                posDiag.discard(r + c)
-                negDiag.discard(r - c)
-                col.discard(c)
-
-    backtrack(0)
-
-    return solutions
+    backtrack(0, n, cols, pos_diag, neg_diag, board)
 
 
 if __name__ == "__main__":
-    # board dimensions
+    n = sys.argv
+    if len(n) != 2:
+        print("Usage: nqueens N")
+        sys.exit(1)
     try:
-        dimensions = int(sys.argv[1])
+        nn = int(n[1])
+        if nn < 4:
+            print("N must be at least 4")
+            sys.exit(1)
+        nqueens(nn)
     except ValueError:
         print("N must be a number")
         sys.exit(1)
-
-    if dimensions <= 3:
-        print("N must be at least 4")
-        sys.exit(1)
-
-    for sol in solveQueens(dimensions):
-        print(sol)
