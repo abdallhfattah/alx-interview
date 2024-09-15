@@ -44,7 +44,7 @@ if __name__ == "__main__":
     # board dimensions
     try:
         dimensions = int(sys.argv[1])
-    except TypeError:
+    except ValueError:
         print("N must be a number")
         sys.exit(1)
 
