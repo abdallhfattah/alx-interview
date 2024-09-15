@@ -4,7 +4,7 @@ import sys
 from typing import List, Any
 
 
-def solveQueens(n: int) -> List[List[Any]]:
+def solveQueens(n: int) -> List[List[int,int]]:
     """function to solve N queen problem"""
     col = set()
     posDiag = set()  # (r + c)
