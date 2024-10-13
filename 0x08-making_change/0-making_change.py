@@ -18,7 +18,11 @@ def makeChange(coins, total):
             break
         if total % coin == 0:
             what_i_will_take = total // coin
-            number_of_coins += number_of_coins
+            number_of_coins += what_i_will_take
             total -= what_i_will_take * coin
 
     return -1 if total else number_of_coins
+
+print(makeChange([1, 2, 25], 37))
+
+print(makeChange([1256, 54, 48, 16, 102], 1453))
