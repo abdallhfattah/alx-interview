@@ -4,21 +4,23 @@
 
 
 def makeChange(coins, total):
-    """
-    make change (greedy solution probably will not work)
+    """_summary_
+
+    Args:
+        coins (_type_): _description_
+        total (_type_): _description_
+
+    Returns:
+        _type_: _description_
     """
     if total <= 0:
         return 0
 
-    coins.sort(reverse=True)
-    print(coins)
-    number_of_coins = 0
-    for coin in coins:
-        if total == 0:
-            break
-        what_i_will_take = total // coin
-        number_of_coins += what_i_will_take
-        # print(f"what i will take for the {coin} will be {what_i_will_take}")
-        total -= what_i_will_take * coin
+    dp = [float("inf")] * (total + 1)
+    dp[0] = 0
 
-    return -1 if total else number_of_coins
+    for coin in coins:
+        for i in range(coin, total + 1):
+            dp[i] = min(dp[i], dp[i - coin] + 1)
+
+    return dp[total] if dp[total] != float("inf") else -1
