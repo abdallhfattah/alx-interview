@@ -22,9 +22,3 @@ def makeChange(coins, total):
         total -= what_i_will_take * coin
 
     return -1 if total else number_of_coins
-
-print(makeChange([1, 2, 25], 37))
-print(makeChange([37, 2, 25], 50))
-
-
-# print(makeChange([1256, 54, 48, 16, 102], 1453))
