@@ -1,7 +1,9 @@
 #!/usr/bin/python3
 """
-island perimeter problem  
+island perimeter problem
 """
+
+
 def island_perimeter(grid):
     """
     Calculate the perimeter of the island in the given grid.
@@ -14,7 +16,8 @@ def island_perimeter(grid):
     are adjacent to water or the boundary of the grid.
 
     Args:
-    - grid (list of list of int): 2D list where 1 represents land and 0 represents water.
+    - grid (list of list of int): 2D list where 1 represents land
+                                  and 0 represents water.
 
     Returns:
     - int: The perimeter of the island in the grid.
@@ -31,8 +34,9 @@ def perimeter_for_cell(row, col, grid):
     """
     Calculate the perimeter contribution of a single land cell at (row, col).
 
-    A land cell has up to 4 neighboring cells (up, down, left, right). If any of
-    these neighbors is water (0) or outside the grid, it contributes to the perimeter.
+    A land cell has up to 4 neighboring cells (up, down, left, right)
+    If any of these neighbors is water (0) or outside the grid,
+    it contributes to the perimeter.
 
     Args:
     - row (int): The row index of the current cell.
