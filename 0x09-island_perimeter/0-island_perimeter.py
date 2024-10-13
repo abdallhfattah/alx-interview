@@ -1,4 +1,7 @@
 #!/usr/bin/python3
+"""
+island perimeter problem  
+"""
 def island_perimeter(grid):
     """
     Calculate the perimeter of the island in the given grid.
