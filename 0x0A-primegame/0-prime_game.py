@@ -32,20 +32,36 @@ def sieve(n):
 
 
 def lower_bound(arr, target):
-
+    """
+    Find the smallest index where arr[index] >= target.
+    If target is larger than all elements, return len(arr).
+    """
     if len(arr) and arr[0] > target:
-        return 1  # indicate ben wins
+        return 1  # indicate ben wins since maria has nothing to choose
 
     left, right = 0, len(arr)
+
     while left < right:
         mid = (left + right) // 2
-        if arr[mid] == target:
-            return mid
         if arr[mid] < target:
-            left = mid
+            left = mid + 1
         else:
-            right = mid - 1
+            right = mid
+
     return left
+
+
+def check_winner_for_this_round(number):
+    index = lower_bound(prime_numbers, number)
+    # print(
+    #     "number : ",
+    #     number,
+    #     "index : ",
+    #     index,
+    #     " Winner for this round : ",
+    #     "Ben" if index % 2 else "Maria",
+    # )
+    return -1 if index % 2 else 1
 
 
 # O(n * log(log(n)))
@@ -60,13 +76,6 @@ def isWinner(rounds, nums):
     max_num = max(nums)
     sieve(max_num)
 
-    def check_winner_for_this_round(number):
-        index = lower_bound(prime_numbers, number)
-        # print("number : " , number , "index : ",
-        # index , ' Winner for this round : ' ,
-        # "Ben" if index % 2 else "Maria")
-        return -1 if index % 2 else 1
-
     winner = 0
     for num in nums:
         winner += check_winner_for_this_round(num)
@@ -79,3 +88,7 @@ def isWinner(rounds, nums):
         return "Ben"
     else:
         return None
+
+
+prime_numbers = [2, 3, 5]
+print(check_winner_for_this_round(3))
