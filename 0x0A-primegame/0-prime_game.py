@@ -6,6 +6,7 @@ prime game
 # Declare the global variable to store the prime numbers
 prime_numbers = []
 
+
 def sieve(n):
     """
     This function calculates all prime numbers up to n using
@@ -33,18 +34,19 @@ def sieve(n):
 def lower_bound(arr, target):
 
     if len(arr) and arr[0] > target:
-        return 1 # indicate ben wins
+        return 1  # indicate ben wins
 
-    l , r = 0 , len(arr)
-    while l < r:
-        mid = (l + r) // 2
+    left, right = 0, len(arr)
+    while left < right:
+        mid = (left + right) // 2
         if arr[mid] == target:
             return mid
         if arr[mid] < target:
-            l = mid
+            left = mid
         else:
-            r = mid - 1
-    return l
+            right = mid - 1
+    return left
+
 
 # O(n * log(log(n)))
 def isWinner(rounds, nums):
@@ -60,20 +62,20 @@ def isWinner(rounds, nums):
 
     def check_winner_for_this_round(number):
         index = lower_bound(prime_numbers, number)
-        # print("number : " , number , "index : " , index , ' Winner for this round : ' , "Ben" if index % 2 else "Maria")
+        # print("number : " , number , "index : ",
+        # index , ' Winner for this round : ' ,
+        # "Ben" if index % 2 else "Maria")
         return -1 if index % 2 else 1
 
     winner = 0
     for num in nums:
         winner += check_winner_for_this_round(num)
 
-    prime_numbers.clear() # clear the global list
+    prime_numbers.clear()  # clear the global list
 
-    if winner > 0: return "Maria"
-    elif winner < 0: return "Ben"
-    else: return None
-
-
-if __name__ == '__main__':
-  print("Winner: {}".format(isWinner(3, [4, 5, 1])))
-  print("Winner: {}".format(isWinner(5, [2, 5, 1, 4, 3])))
+    if winner > 0:
+        return "Maria"
+    elif winner < 0:
+        return "Ben"
+    else:
+        return None
