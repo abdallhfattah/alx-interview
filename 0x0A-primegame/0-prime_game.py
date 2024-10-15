@@ -1,79 +1,71 @@
-#!/usr/bin/python3
-"""Module for Prime Game"""
+class PrimeGame:
+    def __init__(self):
+        self.prime_numbers = []
 
+    def sieve(self, n):
+        prime = [True] * (n + 1)
+        prime[0] = prime[1] = False
 
-def isWinner(x, nums):
-    """
-    Determines the winner of a set of prime number removal games.
+        for p in range(2, int(n**0.5) + 1):
+            if prime[p]:
+                for multiple in range(p * p, n + 1, p):
+                    prime[multiple] = False
 
-    Args:
-        x (int): The number of rounds.
-        nums (list of int): A list of integers where each integer n denotes
-        a set of consecutive integers starting from 1 up to and including n.
+        self.prime_numbers = [i for i, is_prime in enumerate(prime) if is_prime]
 
-    Returns:
-        str: The name of the player who won the most rounds (either "Ben"
-        or "Maria").
-        None: If the winner cannot be determined.
+    def lower_bound(self, target):
 
-    Raises:
-        None.
-    """
-    # Check for invalid input
-    if x <= 0 or nums is None:
-        return None
-    if x != len(nums):
-        return None
-    # Initialize scores and array of possible prime numbers
-    ben = 0
-    maria = 0
-    # Create a list 'a' of length sorted(nums)[-1] + 1 with all elements
-    # initialized to 1
-    a = [1 for x in range(sorted(nums)[-1] + 1)]
-    # The first two elements of the list, a[0] and a[1], are set to 0
-    # because 0 and 1 are not prime numbers
-    a[0], a[1] = 0, 0
-    # Use Sieve of Eratosthenes algorithm to generate array of prime numbers
-    for i in range(2, len(a)):
-        rm_multiples(a, i)
-    # Play each round of the game
-    for i in nums:
-        # If the sum of prime numbers in the set is even, Ben wins
-        if sum(a[0: i + 1]) % 2 == 0:
-            ben += 1
+        if self.prime_numbers[-1] < target:
+            return len(self.prime_numbers) - 1
+
+        if self.prime_numbers[0] > target:
+            return 1 # indicate that ben won
+
+        left, right = 0, len(self.prime_numbers)
+        while left < right:
+            mid = (left + right) // 2
+            if self.prime_numbers[mid] < target:
+                left = mid + 1
+            else:
+                right = mid
+
+        return left
+
+    def check_winner_for_this_round(self, number):
+        index = self.lower_bound(number)
+        # print("index : " , index)
+        return -1 if index % 2 else 1
+
+    def is_winner_helper(self, x, nums):
+
+        if x <= 0 or nums is None or x != len(nums):
+            # print("i actaully stoped here")
+            return None
+
+        max_num = max(nums)
+        self.sieve(max_num)
+
+        # print("prime numbers: " ,self.prime_numbers)
+
+        winner = 0
+        for num in nums:
+            winner += self.check_winner_for_this_round(num)
+
+        self.prime_numbers.clear()
+        # print("score: " , winner)
+        if winner > 0:
+            return "Maria"
+        elif winner < 0:
+            return "Ben"
         else:
-            maria += 1
-    # Determine the winner of the game
-    if ben > maria:
-        return "Ben"
-    if maria > ben:
-        return "Maria"
-    return None
+            return None
 
 
-def rm_multiples(ls, x):
-    """
-    Removes multiples of a prime number from an array of possible prime
-    numbers.
+def is_winner(rounds, nums):
+    prime = PrimeGame()
+    return prime.is_winner_helper(rounds, nums)
 
-    Args:
-        ls (list of int): An array of possible prime numbers.
-        x (int): The prime number to remove multiples of.
 
-    Returns:
-        None.
-
-    Raises:
-        None.
-    """
-    # This loop iterates over multiples of a prime number and marks them as
-    # non-prime by setting their corresponding value to 0 in the input
-    # list ls. Starting from 2, it sets every multiple of x up to the
-    # length of ls to 0. If the index i * x is out of range for the list ls,
-    # the try block will raise an IndexError exception, and the loop will
-    # terminate using the break statement.
-    for i in range(2, len(ls)):
-        try:
-            ls[i * x] = 0
-        except (ValueError, IndexError):
-            break
+if __name__ == '__main__':
+    # print(is_winner(2, [1, 2]))
+    print(is_winner(3, [4, 4, 4]))
