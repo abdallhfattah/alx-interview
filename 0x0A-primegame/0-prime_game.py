@@ -3,6 +3,7 @@
 Module to find a winner of the prime game.
 """
 
+
 class PrimeGame:
     """
     PrimeGame class that controls
