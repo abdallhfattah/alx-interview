@@ -1,94 +1,57 @@
 #!/usr/bin/python3
-"""
-prime game
-"""
-
-# Declare the global variable to store the prime numbers
-prime_numbers = []
+"""Module defining isWinner function."""
 
 
-def sieve(n):
-    """
-    This function calculates all prime numbers up to n using
-    the Sieve of Eratosthenes and updates the global is_prime list.
+def isWinner(x, nums):
+    """Function to get who has won in prime game"""
+    mariaWinsCount = 0
+    benWinsCount = 0
 
-    Args:
-        n (int): The upper limit to find prime numbers.
-    """
-    prime = [True] * (n + 1)
-
-    prime[0] = prime[1] = False
-
-    # Apply Sieve of Eratosthenes to find primes
-    for p in range(2, int(n**0.5) + 1):
-        if prime[p]:
-            for multiple in range(p * p, n + 1, p):
-                prime[multiple] = False
-
-    # filter out the prime numbers
-    for i, is_prime in enumerate(prime):
-        if is_prime:
-            prime_numbers.append(i)
-
-
-def lower_bound(arr, target):
-    """
-    Find the smallest index where arr[index] >= target.
-    If target is larger than all elements, return len(arr).
-    """
-    if len(arr) and arr[0] > target:
-        return 1  # indicate ben wins since maria has nothing to choose
-
-    left, right = 0, len(arr)
-
-    while left < right:
-        mid = (left + right) // 2
-        if arr[mid] < target:
-            left = mid + 1
-        else:
-            right = mid
-
-    return left
-
-
-def check_winner_for_this_round(number):
-    index = lower_bound(prime_numbers, number)
-    # print(
-    #     "number : ",
-    #     number,
-    #     "index : ",
-    #     index,
-    #     " Winner for this round : ",
-    #     "Ben" if index % 2 else "Maria",
-    # )
-    return -1 if index % 2 else 1
-
-
-# O(n * log(log(n)))
-def isWinner(rounds, nums):
-    """
-    This function determines the winner based on rounds and numbers given.
-
-    Args:
-        rounds (int): Number of rounds of the game
-        nums (list): List of numbers for each round
-    """
-    max_num = max(nums)
-    sieve(max_num)
-
-    winner = 0
     for num in nums:
-        winner += check_winner_for_this_round(num)
+        roundsSet = list(range(1, num + 1))
+        primesSet = primes_in_range(1, num)
 
-    prime_numbers.clear()  # clear the global list
+        if not primesSet:
+            benWinsCount += 1
+            continue
 
-    if winner > 0:
-        return "Maria"
-    elif winner < 0:
-        return "Ben"
-    else:
-        return None
+        isMariaTurns = True
+
+        while(True):
+            if not primesSet:
+                if isMariaTurns:
+                    benWinsCount += 1
+                else:
+                    mariaWinsCount += 1
+                break
+
+            smallestPrime = primesSet.pop(0)
+            roundsSet.remove(smallestPrime)
+
+            roundsSet = [x for x in roundsSet if x % smallestPrime != 0]
+
+            isMariaTurns = not isMariaTurns
+
+    if mariaWinsCount > benWinsCount:
+        return "Winner: Maria"
+
+    if mariaWinsCount < benWinsCount:
+        return "Winner: Ben"
+
+    return None
 
 
-prime_numbers = [2, 3, 5]
-print(check_winner_for_this_round(3))
+def is_prime(n):
+    """Returns True if n is prime, else False."""
+    if n < 2:
+        return False
+    for i in range(2, int(n ** 0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
+
+
+def primes_in_range(start, end):
+    """Returns a list of prime numbers between start and end (inclusive)."""
+    primes = [n for n in range(start, end+1) if is_prime(n)]
+    return primes
