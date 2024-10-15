@@ -3,9 +3,6 @@
 Module to find a winner of the prime game.
 """
 
-from typing import List, Optional
-
-
 class PrimeGame:
     """
     PrimeGame class that controls
@@ -17,7 +14,7 @@ class PrimeGame:
         Initializes the PrimeGame class by creating
         an empty list of prime numbers.
         """
-        self.prime_numbers: List[int] = []
+        self.prime_numbers = []
 
     def sieve(self, n: int) -> None:
         """
@@ -53,6 +50,9 @@ class PrimeGame:
             If 'target' is smaller than the smallest prime,
             it returns 1, indicating Ben wins.
         """
+        if len(self.prime_numbers) == 0:
+            return 1
+
         if self.prime_numbers[-1] < target:
             return len(self.prime_numbers) - 1
 
@@ -87,7 +87,7 @@ class PrimeGame:
         # print("number : ", number, "index : ", index)
         return -1 if index % 2 else 1
 
-    def is_winner(self, x: int, nums: List[int]) -> Optional[str]:
+    def is_winner(self, x: int, nums):
         """
         Helper function to determine the overall
         winner after 'x' rounds based on the provided numbers in 'nums'.
@@ -120,7 +120,7 @@ class PrimeGame:
             return None
 
 
-def isWinner(rounds: int, nums: List[int]) -> Optional[str]:
+def isWinner(rounds, nums):
     """
     Function to determine the winner of the game after a number of rounds.
 
@@ -137,5 +137,5 @@ def isWinner(rounds: int, nums: List[int]) -> Optional[str]:
 
 
 if __name__ == "__main__":
-    # print(isWinner(6, [1, 1, 0, 0, 1, 8]))
-    print(isWinner(5, [1, 2, 3, 4, 5]))
+    print(isWinner(6, [1, 1, 0, 0, 1, 8]))
+    # print(isWinner(5, [1, 2, 3, 4, 5]))
