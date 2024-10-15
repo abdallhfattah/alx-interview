@@ -8,19 +8,22 @@ from typing import List, Optional
 
 class PrimeGame:
     """
-    PrimeGame class that controls the game logic for finding the winner.
+    PrimeGame class that controls
+    the game logic for finding the winner.
     """
 
     def __init__(self):
         """
-        Initializes the PrimeGame class by creating an empty list of prime numbers.
+        Initializes the PrimeGame class by creating
+        an empty list of prime numbers.
         """
         self.prime_numbers: List[int] = []
 
     def sieve(self, n: int) -> None:
         """
-        Implements the Sieve of Eratosthenes to find all prime numbers less than or equal to 'n'.
-        
+        Implements the Sieve of Eratosthenes
+        to find all prime numbers less than or equal to 'n'.
+
         Args:
             n (int): The upper limit for finding prime numbers.
         """
@@ -32,18 +35,23 @@ class PrimeGame:
                 for multiple in range(p * p, n + 1, p):
                     prime[multiple] = False
 
-        self.prime_numbers = [i for i, is_prime in enumerate(prime) if is_prime]
+        self.prime_numbers = [i for i, is_pri in enumerate(prime) if is_pri]
 
     def lower_bound(self, target: int) -> int:
         """
-        A custom binary search (lower bound) to find the index of the largest prime number less than or equal to 'target'.
-        
+        A custom binary search (lower bound)
+        to find the index of the largest prime number
+        less than or equal to 'target'.
+
         Args:
-            target (int): The number for which to find the largest prime less than or equal to it.
-        
+            target (int): The number for which to find
+            the largest prime less than or equal to it.
+
         Returns:
-            int: The index of the largest prime number less than or equal to 'target'.
-                 If 'target' is smaller than the smallest prime, it returns 1, indicating Ben wins.
+            int: The index of the largest prime number
+            less than or equal to 'target'.
+            If 'target' is smaller than the smallest prime,
+            it returns 1, indicating Ben wins.
         """
         if self.prime_numbers[-1] < target:
             return len(self.prime_numbers) - 1
@@ -59,31 +67,38 @@ class PrimeGame:
             else:
                 right = mid
 
+        if self.prime_numbers[left] > target:
+            left -= 1
+
         return left
 
     def check_winner_for_this_round(self, number: int) -> int:
         """
         Determines the winner for a single round based on the given number.
-        
+
         Args:
-            number (int): The current number to check the winner for this round.
-        
+            number (int): The current number
+            to check the winner for this round.
+
         Returns:
             int: -1 if Ben wins this round, 1 if Maria wins this round.
         """
         index = self.lower_bound(number)
+        # print("number : ", number, "index : ", index)
         return -1 if index % 2 else 1
 
     def is_winner(self, x: int, nums: List[int]) -> Optional[str]:
         """
-        Helper function to determine the overall winner after 'x' rounds based on the provided numbers in 'nums'.
-        
+        Helper function to determine the overall
+        winner after 'x' rounds based on the provided numbers in 'nums'.
+
         Args:
             x (int): The number of rounds.
             nums (List[int]): The list of numbers for each round.
-        
+
         Returns:
-            Optional[str]: The name of the winner ("Maria" or "Ben") or None if no winner.
+            Optional[str]: The name of the winner
+            ("Maria" or "Ben") or None if no winner.
         """
         if x <= 0 or nums is None or x != len(nums):
             return None
@@ -108,13 +123,19 @@ class PrimeGame:
 def isWinner(rounds: int, nums: List[int]) -> Optional[str]:
     """
     Function to determine the winner of the game after a number of rounds.
-    
+
     Args:
         rounds (int): The number of rounds to be played.
         nums (List[int]): A list of numbers for each round.
-    
+
     Returns:
-        Optional[str]: The name of the winner ("Maria" or "Ben") or None if no winner.
+        Optional[str]: The name of
+        the winner ("Maria" or "Ben") or None if no winner.
     """
     prime = PrimeGame()
     return prime.is_winner(rounds, nums)
+
+
+if __name__ == "__main__":
+    # print(isWinner(6, [1, 1, 0, 0, 1, 8]))
+    print(isWinner(5, [1, 2, 3, 4, 5]))
