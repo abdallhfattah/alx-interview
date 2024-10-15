@@ -74,7 +74,7 @@ class PrimeGame:
         index = self.lower_bound(number)
         return -1 if index % 2 else 1
 
-    def is_winner_helper(self, x: int, nums: List[int]) -> Optional[str]:
+    def is_winner(self, x: int, nums: List[int]) -> Optional[str]:
         """
         Helper function to determine the overall winner after 'x' rounds based on the provided numbers in 'nums'.
         
@@ -105,7 +105,7 @@ class PrimeGame:
             return None
 
 
-def is_winner(rounds: int, nums: List[int]) -> Optional[str]:
+def isWinner(rounds: int, nums: List[int]) -> Optional[str]:
     """
     Function to determine the winner of the game after a number of rounds.
     
@@ -117,4 +117,4 @@ def is_winner(rounds: int, nums: List[int]) -> Optional[str]:
         Optional[str]: The name of the winner ("Maria" or "Ben") or None if no winner.
     """
     prime = PrimeGame()
-    return prime.is_winner_helper(rounds, nums)
+    return prime.is_winner(rounds, nums)
